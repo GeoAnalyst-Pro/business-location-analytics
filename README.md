@@ -138,5 +138,5 @@ HTML-файл (Leaflet.js и тайлы CartoDB подключаются бра�
 ## Author / Автор
 
 **Zhanna Marchenko / Жанна Марченко** — Chief Project Engineer (NOPRIZ Lvl.
-7) / ГИП, НОПРИЗ 7 уровень · Founder, DOMA LLC (ESG Doma) ·
+7) / Цифровой аналитик городской среды/ ГИП, НОПРИЗ 7 уровень · Founder, DOMA LLC (ESG Doma) ·
 [LinkedIn](https://www.linkedin.com/in/jeanna-marchenko-405b9622a/)
