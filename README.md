@@ -9,9 +9,7 @@ catchment, and competitive-density analysis.
 - Competitive-density mapping
 - Demographic and income-profile matching to target customer segment
 - Rent-to-revenue feasibility scoring
-
 ---
-
 ## Case: EV Taxi Fleet Transition — Sochi Analytical Map
 ### Кейс: Аналитическая карта перехода таксопарка на электромобили — Сочи
 
@@ -30,15 +28,6 @@ for each file is also browsable directly in this repository) / (опублико
 через GitHub Pages — открывается как готовая интерактивная страница;
 исходный код каждого файла также можно посмотреть прямо в репозитории)*
 
-> ⚠️ These links only work if the two files in this repository are named
-> **exactly** `sochi_ev_taxi_map_en.html` and `sochi_ev_taxi_map_ru.html`
-> (case-sensitive). If you rename either file in the repo, update the links
-> above to match. / Эти ссылки сработают, только если два файла в
-> репозитории названы **точно** так: `sochi_ev_taxi_map_en.html` и
-> `sochi_ev_taxi_map_ru.html` (с учётом регистра). Если переименуете
-> файлы — поправьте ссылки выше под новые имена.
-
-<details>
 <summary><b>If the links above show a 404 / Если ссылки выше выдают 404</b></summary>
 
 1. Open the repository and check the exact file names as listed there
