@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Переход таксопарка на электромобили &mdash; аналитическая карта Сочи | DOMA</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --white: #FFFFFF; --mint: #ECF0E7; --sage-light: #D8E0CE; --sage: #758563;
+    --forest: #4E5842; --gold: #CEB966; --cream: #F6F1E1; --cream-gold: #ECE3C2;
+    --gold-light: #E2D5A3; --olive-gold: #9B8B4D; --brown: #675D33;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; height:100%; font-family: 'Segoe UI', Arial, sans-serif; color:#2b2b22; }
+  #map { position:absolute; top:76px; left:0; right:0; bottom:0; }
+
+  #header {
+    position:absolute; top:0; left:0; right:0; height:76px; z-index:1000;
+    background: linear-gradient(90deg, var(--forest) 0%, var(--sage) 100%);
+    display:flex; align-items:center; padding:0 20px; color:var(--white);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  #header img.logo { height:52px; width:52px; margin-right:16px; background:var(--white); border-radius:50%; padding:4px; }
+  #header .titles h1 { margin:0; font-size:18px; font-weight:700; letter-spacing:.2px; }
+  #header .titles p { margin:2px 0 0; font-size:12px; opacity:.92; }
+  #header .tag { margin-left:auto; font-size:11.5px; background:rgba(255,255,255,0.15); padding:6px 12px; border-radius:14px; }
+
+  .legend-box {
+    background: var(--cream); padding:10px 14px; border-radius:8px;
+    box-shadow:0 1px 6px rgba(0,0,0,0.25); font-size:12.5px; line-height:1.55;
+    border:1px solid var(--sage-light); max-width:260px;
+  }
+  .legend-box h4 { margin:0 0 6px; font-size:12.5px; color:var(--forest); text-transform:uppercase; letter-spacing:.4px; }
+  .legend-row { display:flex; align-items:center; gap:8px; }
+  .legend-dot { width:12px; height:12px; border-radius:50%; display:inline-block; border:1px solid rgba(0,0,0,0.25); flex:none; }
+  .legend-ring { width:12px; height:12px; border-radius:50%; border:2px solid var(--gold); display:inline-block; flex:none; }
+
+  #panel {
+    position:absolute; top:90px; left:12px; z-index:1000; width:370px; max-height:calc(100% - 110px);
+    overflow-y:auto; background:rgba(255,255,255,0.97); border:1px solid var(--sage-light);
+    border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,0.3);
+  }
+  #panel .tabs { display:flex; position:sticky; top:0; background:var(--forest); border-radius:10px 10px 0 0; z-index:2;}
+  #panel .tabs button {
+    flex:1; padding:9px 3px; font-size:11px; background:transparent; border:none; color:var(--mint);
+    cursor:pointer; border-bottom:3px solid transparent; font-weight:600;
+  }
+  #panel .tabs button.active { color:var(--white); border-bottom:3px solid var(--gold); }
+  #panel .tab-content { display:none; padding:12px 14px 16px; }
+  #panel .tab-content.active { display:block; }
+  #panel h3 { font-size:13px; color:var(--forest); margin:10px 0 6px; border-bottom:1px solid var(--sage-light); padding-bottom:4px;}
+  #panel table { width:100%; border-collapse:collapse; font-size:11.5px; margin-bottom:8px; }
+  #panel td { padding:4px 5px; border-bottom:1px solid var(--mint); vertical-align:top; }
+  #panel td:first-child { color:#4a4a3d; width:46%; }
+  #panel td:nth-child(2) { font-weight:600; color:var(--forest); }
+  #panel .metrics td { width:auto; }
+  #panel .metrics td:first-child { width:44%; color:#4a4a3d; }
+  #panel .metrics td:nth-child(2) { font-weight:500; color:#2b2b22; }
+  #panel ul.conclusions { margin:0; padding-left:18px; font-size:11.8px; line-height:1.5; }
+  #panel ul.conclusions li { margin-bottom:9px; }
+  #panel .headnote { font-size:11px; color:#6b6b5c; margin-bottom:8px; }
+  .pill { display:inline-block; background:var(--cream-gold); color:var(--brown); border-radius:10px; padding:1px 8px; font-size:10.5px; font-weight:700; margin-left:4px;}
+
+  .leaflet-popup-content { font-size:12.5px; }
+  .leaflet-popup-content b { color:var(--forest); }
+
+  .station-icon { border-radius:50%; border:2px solid rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:center; font-size:13px; color:#fff; box-shadow:0 1px 3px rgba(0,0,0,.4);}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <img class="logo" src="data:image/png;base64,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" alt="Логотип DOMA" />
+  <div class="titles">
+    <h1>Переход таксопарка на электромобили &mdash; Сочи, Краснодарский край</h1>
+    <p>Снижение затрат, сохранение выручки и управление рисками &middot; Аналитическая карта для принятия решения &middot; DOMA / GeoAnalyst, апрель 2026</p>
+  </div>
+  <div class="tag">Подготовила Жанна Марченко &middot; ГИП НОПРИЗ, 7 уровень</div>
+</div>
+
+<div id="map"></div>
+
+<div id="panel">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="conclusions">Выводы</button>
+    <button class="tab-btn" data-tab="metrics">Ключевые цифры</button>
+    <button class="tab-btn" data-tab="tco">TCO (EV vs ДВС)</button>
+    <button class="tab-btn" data-tab="fleet">Парк и рынок</button>
+  </div>
+
+  <div class="tab-content active" id="tab-conclusions">
+    <div class="headnote">Выводы для принятия решения — по результатам полного анализа кейса.</div>
+    <ul class="conclusions">
+      <li>Перевод 60% парка (120 из 200 автомобилей) на электромобили Evolute i-JET в рамках отдельного тарифа «ECO COMFORT+» даёт прогнозную экономию по парку 8–12% за 10 лет — при условии ночной зарядки по 3,5 ₽/кВт·ч, 5–10 собственных быстрых DC-станций и строгого зонирования маршрутов.</li><li>Точка безубыточности наступает на 6–7 год эксплуатации каждого автомобиля; с этого момента электромобиль переходит от паритета затрат к чистой выгоде относительно аналога на ДВС.</li><li>Горный рельеф (Красная Поляна) — главный операционный риск: запас хода на подъёме падает до 180–220 км. Снижать риск лимитом 2 поездки/день и собственной зарядной станцией на месте — не полагаться на публичную сеть на этом маршруте.</li><li>Выбор российского бренда (Evolute, сборка в Липецке) снимает риски логистики китайских запчастей и даёт право на льготный лизинг и отмену транспортного налога.</li><li>Зарядная инфраструктура Краснодарского края растёт быстрее среднероссийской (+110% в год против ~60–70% по стране), что снижает долгосрочный риск доступности зарядки для парка в Сочи.</li><li>Рекомендуемая структура парка: 120 EV (город/курорт) + 50 гибридов (средние дистанции) + 30 ДВС (дальние/горные удалённые заказы) — баланс экономии и операционного риска вместо перевода всего парка целиком.</li>
+    </ul>
+  </div>
+
+  <div class="tab-content" id="tab-metrics">
+    <h3>Ключевые операционные и финансовые показатели</h3>
+    <table class="metrics"><tr><td>Расход топлива/энергии, 50 000 км/год</td><td>109 900 ₽/год (EV) против 270 000 ₽/год (ДВС) — дешевле на 70%</td></tr><tr><td>Затраты на ТО</td><td>−35% (нет замены масла, свечей, ремня ГРМ)</td></tr><tr><td>Износ тормозных колодок (спуски с гор)</td><td>до −60% за счёт рекуперации</td></tr><tr><td>Ночной тариф зарядки</td><td>3,5 ₽/кВт·ч, 23:00–07:00 → энергия дешевле на ~65%</td></tr><tr><td>Ресурс батареи</td><td>7–8 лет (лимит заряда 85% + жидкостное охлаждение); гарантия 5–8 лет</td></tr><tr><td>Простая окупаемость на 1 авто</td><td>6–7 год эксплуатации</td></tr><tr><td>Быстрая зарядная инфраструктура</td><td>5–10 собственных DC-станций 50 кВт; ~30 мин дозаряд между сменами</td></tr><tr><td>Запас хода в горах</td><td>180–220 км (против 300+ км на равнине); не более 2 подъёмов в день на авто</td></tr><tr><td>Зарядная сеть региона</td><td>Краснодарский край: 414 точек (+110% за год) — №1 на Юге России</td></tr><tr><td>Эффект по парку за 10 лет (120 EV)</td><td>&gt;590 млн ₽ совокупно</td></tr><tr><td>Прирост рентабельности парка</td><td>+12% (≈ 200–240 млн ₽ доп. прибыли за 10 лет)</td></tr></table>
+  </div>
+
+  <div class="tab-content" id="tab-tco">
+    <h3>TCO за 10 лет на 1 автомобиль <span class="pill">Evolute i-JET vs ДВС Comfort+</span></h3>
+    <table>
+      <tr><td><b>Параметр</b></td><td><b>Evolute i-JET (EV)</b></td><td><b>Аналог на ДВС</b></td></tr>
+      <tr><td>Стоимость покупки авто</td><td>5 275 000 ₽</td><td>2 800 000 ₽</td></tr><tr><td>Годовой пробег (база расчёта)</td><td>30 000 км</td><td>30 000 км</td></tr><tr><td>Расход энергии/топлива на 100 км</td><td>28 кВт·ч</td><td>9 л (АИ-95)</td></tr><tr><td>Средний чек (ECO Comfort+ / Comfort+)</td><td>504 ₽</td><td>450 ₽</td></tr><tr><td>Эксплуатация за 10 лет (энергия+ТО)</td><td>5 481 840 ₽</td><td>—</td></tr><tr><td>Замена батареи (год 8)</td><td>1 100 000 ₽</td><td>—</td></tr><tr><td>Остаточная стоимость (10 лет, ~40%)</td><td>− 2 110 000 ₽</td><td>—</td></tr><tr><td>Итого чистый TCO за 10 лет</td><td>8 396 840 ₽</td><td>—</td></tr><tr><td>Стоимость 1 км</td><td>27,99 ₽/км</td><td>—</td></tr>
+    </table>
+  </div>
+
+  <div class="tab-content" id="tab-fleet">
+    <h3>Рекомендуемая структура парка (200 авто)</h3>
+    <table><tr><td>Электромобили (Evolute i-JET)</td><td>120 авто</td><td>Город + Красная Поляна, тариф ECO COMFORT+</td></tr><tr><td>Гибриды</td><td>50 авто</td><td>Средние дистанции</td></tr><tr><td>ДВС (бензин)</td><td>30 авто</td><td>Дальние поездки: Осетия, Домбай, удалённые заказы</td></tr></table>
+    <h3>Срез рынка (2025&ndash;2026)</h3>
+    <table><tr><td>Доля EV в продажах новых авто</td><td>Сочи ~1,5–2%</td><td>Край 1,2%</td><td>Россия 0,8%</td></tr><tr><td>Публичные зарядные станции</td><td>Сочи: 36 (оценка 2026)</td><td>Край: 414 (+110% за год)</td><td>Россия: ~2 500–3 000</td></tr><tr><td>Средняя цена нового EV</td><td>Сочи: 3–4 млн ₽</td><td>Край: 2,92 млн ₽ (−42% за год)</td><td>Россия: 4,5–5,2 млн ₽</td></tr></table>
+  </div>
+</div>
+
+<script>
+const BRAND = {"white": "#FFFFFF", "mint": "#ECF0E7", "sage_light": "#D8E0CE", "sage": "#758563", "forest": "#4E5842", "gold": "#CEB966", "cream": "#F6F1E1", "cream_gold": "#ECE3C2", "gold_light": "#E2D5A3", "olive_gold": "#9B8B4D", "brown": "#675D33"};
+const HUBS = [{"name": "Международный аэропорт Сочи (AER)", "category": "airport", "lat": 43.4499, "lon": 39.9566, "color": "#675D33", "icon": "✈", "note": "27 км от центра города. Автоблокировка заказов (&gt;150 км) защищает электромобили от критичных по запасу хода трансферов в зонах без инфраструктуры."}, {"name": "Железнодорожный вокзал Сочи", "category": "railway", "lat": 43.5788, "lon": 39.7211, "color": "#4E5842", "icon": "⚑", "note": "1,4 км от центра города — основная точка диспетчеризации в городской черте."}, {"name": "Морской вокзал Сочи", "category": "sea_port", "lat": 43.582, "lon": 39.7203, "color": "#758563", "icon": "⚓", "note": "1,3 км от центра города — точка с высоким турпотоком, соответствует целевому сегменту тарифа ECO COMFORT+ (эко-туристы, бизнес-туристы)."}, {"name": "Горный курорт Красная Поляна", "category": "resort", "lat": 43.6789, "lon": 40.2028, "color": "#9B8B4D", "icon": "⛰", "note": "~80 км от центра города. Зона повышенного расхода (до 40 кВт·ч/100 км на подъёме, запас хода падает до 180-220 км) — не более 2 поездок в горы в день на 1 авто; обслуживается собственной зарядной станцией, а не публичной сетью."}];
+const STATIONS = [{"name": "EVA Charge — ул. Навагинская", "lat": 43.5845, "lon": 39.722, "power_kw": 150, "dc": true, "operator": "EVA Charge (Интермобилити)"}, {"name": "EVA Charge — ул. Ленина", "lat": 43.582, "lon": 39.723, "power_kw": 150, "dc": true, "operator": "EVA Charge (Интермобилити)"}, {"name": "Россети Кубань — ул. Конституции СССР, 42А", "lat": 43.591, "lon": 39.7285, "power_kw": 60, "dc": true, "operator": "Россети Кубань"}, {"name": "EVA Charge — Сухумское шоссе", "lat": 43.53, "lon": 39.795, "power_kw": 150, "dc": true, "operator": "EVA Charge (Интермобилити)"}, {"name": "МореМолл — ул. Новая Заря, 7 (Донская)", "lat": 43.608, "lon": 39.742, "power_kw": 60, "dc": true, "operator": "НСП Юг-Технологии"}, {"name": "Green Drive — ул. Политехническая, 62/1", "lat": 43.599, "lon": 39.755, "power_kw": 120, "dc": true, "operator": "Green Drive"}, {"name": "Punkt E — ул. Мира, 37Б", "lat": 43.5865, "lon": 39.7195, "power_kw": 22, "dc": false, "operator": "Punkt E"}, {"name": "Sitronics Electro — ул. Ленина, 276/1", "lat": 43.5835, "lon": 39.724, "power_kw": 60, "dc": true, "operator": "Sitronics Electro"}, {"name": "EVA Charge — ул. Макаренко", "lat": 43.5875, "lon": 39.726, "power_kw": 150, "dc": true, "operator": "EVA Charge (Интермобилити)"}, {"name": "Brixby — Батумское шоссе, 34Б (Дагомыс)", "lat": 43.68, "lon": 39.63, "power_kw": 60, "dc": true, "operator": "Brixby"}, {"name": "Зарядная станция — ул. Триумфальная, 26 (Сириус)", "lat": 43.408, "lon": 39.952, "power_kw": 60, "dc": true, "operator": "Локальный оператор"}];
+
+const map = L.map('map', { zoomControl: false, scrollWheelZoom: true })
+  .setView([43.56, 39.85], 10);
+
+L.control.zoom({ position: 'bottomleft' }).addTo(map);
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
+
+L.control.scale({ metric: true, imperial: false, position: 'bottomleft' }).addTo(map);
+
+function hubDivIcon(color, glyph) {
+  return L.divIcon({
+    className: '',
+    html: `<div class="station-icon" style="width:30px;height:30px;background:${color};font-size:15px;">${glyph}</div>`,
+    iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15]
+  });
+}
+function chargerDivIcon(color, size) {
+  return L.divIcon({
+    className: '',
+    html: `<div class="station-icon" style="width:${size}px;height:${size}px;background:${color};font-size:${size*0.55}px;">&#9889;</div>`,
+    iconSize: [size, size], iconAnchor: [size/2, size/2], popupAnchor: [0, -size/2]
+  });
+}
+
+const hubLayer = L.layerGroup();
+HUBS.forEach(h => {
+  L.marker([h.lat, h.lon], { icon: hubDivIcon(h.color, h.icon) })
+    .bindPopup(`<b>${h.name}</b><br>${h.note}`)
+    .addTo(hubLayer);
+});
+
+const chargerLayer = L.layerGroup();
+const radiusLayer = L.layerGroup();
+STATIONS.forEach(s => {
+  const color = s.dc ? BRAND.gold : BRAND.gold_light;
+  const size = s.dc ? (s.power_kw >= 100 ? 26 : 22) : 18;
+  L.marker([s.lat, s.lon], { icon: chargerDivIcon(color, size) })
+    .bindPopup(`<b>${s.name}</b><br>Оператор: ${s.operator}<br>Мощность: ${s.power_kw} кВт (${s.dc ? 'быстрая DC' : 'AC'})`)
+    .addTo(chargerLayer);
+  if (s.dc) {
+    L.circle([s.lat, s.lon], {
+      radius: 5000, color: BRAND.gold, weight: 1, fillColor: BRAND.gold, fillOpacity: 0.05, opacity: 0.35
+    }).addTo(radiusLayer);
+  }
+});
+
+radiusLayer.addTo(map);
+chargerLayer.addTo(map);
+hubLayer.addTo(map);
+
+L.control.layers(null, {
+  "Ключевые хабы (аэропорт/вокзалы/курорт)": hubLayer,
+  "Зарядные станции": chargerLayer,
+  "Радиусы охвата 5 км": radiusLayer
+}, { collapsed: false, position: 'topright' }).addTo(map);
+
+const LegendControl = L.Control.extend({
+  onAdd: function() {
+    const div = L.DomUtil.create('div', 'legend-box');
+    div.innerHTML = '<h4>Условные обозначения</h4><div class="legend-row"><span class="legend-dot" style="background:#675D33"></span>Международный аэропорт</div><div class="legend-row"><span class="legend-dot" style="background:#4E5842"></span>Железнодорожный вокзал</div><div class="legend-row"><span class="legend-dot" style="background:#758563"></span>Морской вокзал</div><div class="legend-row"><span class="legend-dot" style="background:#9B8B4D"></span>Горный курорт (Красная Поляна)</div><div class="legend-row"><span class="legend-dot" style="background:#CEB966"></span>Быстрая DC-зарядка (≥60 кВт)</div><div class="legend-row"><span class="legend-dot" style="background:#E2D5A3"></span>AC-зарядка (&lt;60 кВт)</div><div class="legend-row"><span class="legend-ring"></span>Индикативный радиус охвата 5 км от быстрой DC-станции</div>';
+    return div;
+  },
+  options: { position: 'bottomright' }
+});
+map.addControl(new LegendControl());
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
