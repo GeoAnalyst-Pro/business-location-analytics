@@ -30,14 +30,7 @@ for each file is also browsable directly in this repository) / (опублико
 
 <summary><b>If the links above show a 404 / Если ссылки выше выдают 404</b></summary>
 
-1. Open the repository and check the exact file names as listed there
-   (click each file and copy its name from the page title).
-2. Confirm GitHub Pages is enabled: **Settings → Pages → Source: Deploy
-   from a branch → main → / (root)**, and that the green "Your site is
-   live at..." banner is showing.
-3. Wait 1–2 minutes after any file change — Pages takes a short time to
-   rebuild.
-4. As a zero-wait fallback, use htmlpreview.github.io instead — replace
+ As a zero-wait fallback, use htmlpreview.github.io instead — replace
    `main` below with your actual default branch if different:
    - EN: `https://htmlpreview.github.io/?https://github.com/GeoAnalyst-Pro/business-location-analytics/blob/main/sochi_ev_taxi_map_en.html`
    - RU: `https://htmlpreview.github.io/?https://github.com/GeoAnalyst-Pro/business-location-analytics/blob/main/sochi_ev_taxi_map_ru.html`
