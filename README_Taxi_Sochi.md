@@ -62,19 +62,11 @@ are a curated public subset (2GIS, EVA Charge network, sochi.spravker.ru);
 see inline comments in each HTML file's source for full citation notes and
 guidance on sourcing live data for a production version.
 
-### Repository contents / Содержимое репозитория
-
-```
-sochi_ev_taxi_map_en.html    # готовая карта на английском
-sochi_ev_taxi_map_ru.html    # готовая карта на русском
-README.md
-```
-
 ### Author / Автор
 
 **Zhanna Marchenko / Жанна Марченко** — Chief Project Engineer (NOPRIZ Lvl.
 7) / Цифровая аналитика / ГИП, НОПРИЗ 7 уровень · Founder, DOMA LLC (ESG Doma) 
 
-© 2022 ИП Марченко | GeoAnalyst.pro
+© 2026 GeoAnalyst.pro
 Все материалы охраняются законодательством РФ об интеллектуальной собственности (ст. 1225–1302 ГК РФ).
 Аналитические прогнозы не являются инвестиционной рекомендацией (39-ФЗ).
