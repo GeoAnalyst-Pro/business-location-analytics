@@ -110,12 +110,5 @@ a production version.
 Все материалы охраняются законодательством РФ об интеллектуальной собственности (ст. 1225–1302 ГК РФ).
 Аналитические прогнозы не являются инвестиционной рекомендацией (39-ФЗ).
 
-
-
-
-
 ### Author / Автор
-
-**Zhanna Marchenko / Жанна Марченко** — Chief Project Engineer (NOPRIZ Lvl.
-7) / ГИП, НОПРИЗ 7 уровень · Founder, DOMA LLC (ESG Doma) ·
-[LinkedIn](https://www.linkedin.com/in/jeanna-marchenko-405b9622a/)
+**Zhanna Marchenko / Жанна Марченко**
