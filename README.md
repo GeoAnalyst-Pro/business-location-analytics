@@ -34,9 +34,7 @@ for each file is also browsable directly in this repository) / (опублико
    `main` below with your actual default branch if different:
    - EN: `https://htmlpreview.github.io/?https://github.com/GeoAnalyst-Pro/business-location-analytics/blob/main/sochi_ev_taxi_map_en.html`
    - RU: `https://htmlpreview.github.io/?https://github.com/GeoAnalyst-Pro/business-location-analytics/blob/main/sochi_ev_taxi_map_ru.html`
-
 —
-
 1. Откройте репозиторий и проверьте точные имена файлов (кликните на файл —
    имя видно в заголовке страницы).
 2. Убедитесь, что GitHub Pages включён: **Settings → Pages → Source:
