@@ -32,8 +32,8 @@ source code. Use the links below instead; they render the map as a live page.
 
 | | Live page (htmlpreview) | Source file |
 |---|---|---|
-| 🇬🇧 English | **[Open map](https://htmlpreview.github.io/?https://github.com/GeoAnalyst-Pro/business-location-analytics/blob/main/sochi_ev_taxi_map(1).html)** | [view code](./sochi_ev_taxi_map (1).html) |
-| 🇷🇺 Русский | **[Открыть карту](https://htmlpreview.github.io/?https://github.com/GeoAnalyst-Pro/business-location-analytics/blob/main/sochi_ev_taxi_map_ru(2).html)** | [посмотреть код](./sochi_ev_taxi_map_ru (2).html) |
+| 🇬🇧 English | **[Open map](https://htmlpreview.github.io/?https://github.com/GeoAnalyst-Pro/business-location-analytics/blob/main/sochi_ev_taxi_map1.html)** | [view code](./sochi_ev_taxi_map (1).html) |
+| 🇷🇺 Русский | **[Открыть карту](https://htmlpreview.github.io/?https://github.com/GeoAnalyst-Pro/business-location-analytics/blob/main/sochi_ev_taxi_map_ru2.html)** | [посмотреть код](./sochi_ev_taxi_map_ru (2).html) |
 
 <details>
 <summary><b>Alternative: GitHub Pages / Альтернатива: GitHub Pages</b></summary>
