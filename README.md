@@ -18,34 +18,6 @@ An interactive, brand-styled decision-support map built for the case study
 2026)** — prepared for a taxi-fleet operator evaluating a partial transition
 to electric vehicles. Available in **English** and **Russian**.
 
-### 🗺️ Open the map / Открыть карту
-
-- 🇬🇧 **[Open the English map](https://geoanalyst-pro.github.io/business-location-analytics/sochi_ev_taxi_map_en.html)**
-- 🇷🇺 **[Открыть карту на русском языке](https://geoanalyst-pro.github.io/business-location-analytics/sochi_ev_taxi_map_ru.html)**
-
-*(published via GitHub Pages — opens as a live interactive page; source code
-for each file is also browsable directly in this repository) / (опубликовано
-через GitHub Pages — открывается как готовая интерактивная страница;
-исходный код каждого файла также можно посмотреть прямо в репозитории)*
-
-<summary><b>If the links above show a 404 / Если ссылки выше выдают 404</b></summary>
-
- As a zero-wait fallback, use htmlpreview.github.io instead — replace
-   `main` below with your actual default branch if different:
-   - EN: `https://htmlpreview.github.io/?https://github.com/GeoAnalyst-Pro/business-location-analytics/blob/main/sochi_ev_taxi_map_en.html`
-   - RU: `https://htmlpreview.github.io/?https://github.com/GeoAnalyst-Pro/business-location-analytics/blob/main/sochi_ev_taxi_map_ru.html`
-—
-1. Откройте репозиторий и проверьте точные имена файлов (кликните на файл —
-   имя видно в заголовке страницы).
-2. Убедитесь, что GitHub Pages включён: **Settings → Pages → Source:
-   Deploy from a branch → main → / (root)**, и что показана зелёная
-   плашка "Your site is live at...".
-3. Подождите 1–2 минуты после любого изменения файлов — Pages пересобирается
-   не мгновенно.
-4. Как быстрый запасной вариант — используйте htmlpreview.github.io
-   (ссылки выше в этом же блоке).
-</details>
-
 ### What the map shows / Что показывает карта
 
 - **Ключевые хабы инфраструктуры**: международный аэропорт, ж/д вокзал,
