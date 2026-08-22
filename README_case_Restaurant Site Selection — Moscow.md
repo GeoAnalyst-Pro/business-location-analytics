@@ -17,12 +17,6 @@ both desktop and mobile browsers) / (опубликовано через GitHub 
 открывается как готовая интерактивная страница; работает и на компьютере,
 и на телефоне)*
 
-> ⚠️ These links only work if the two files in this repository are named
-> **exactly** `restaurant_location_moscow_en.html` and
-> `restaurant_location_moscow_ru.html`. / Ссылки сработают, только если два
-> файла в репозитории названы **точно** так:
-> `restaurant_location_moscow_en.html` и `restaurant_location_moscow_ru.html`.
-
 ### Task / Задача
 
 **EN —** A small-business operator is evaluating whether to open a
@@ -109,25 +103,16 @@ not individually verified addresses — replace `POIS` in
 a production version.
 
 ### Repository contents / Содержимое репозитория
-
-```
-build_restaurant_map.py                 # генерирует обе версии карты (EN+RU) из одного файла
-assets/logo.png                         # логотип DOMA
-output/
   restaurant_location_moscow_en.html    # готовая карта на английском
   restaurant_location_moscow_ru.html    # готовая карта на русском
-```
 
-### Regenerating the map / Пересборка карты
+© 2022 ИП Марченко | GeoAnalyst.pro
+Все материалы охраняются законодательством РФ об интеллектуальной собственности (ст. 1225–1302 ГК РФ).
+Аналитические прогнозы не являются инвестиционной рекомендацией (39-ФЗ).
 
-```bash
-python3 build_restaurant_map.py
-```
 
-Both language versions are generated from one shared data structure in a
-single script, so the EN and RU maps cannot drift out of sync with each
-other. / Обе языковые версии генерируются из одной структуры данных в одном
-скрипте — рассинхронизация между EN и RU версиями невозможна.
+
+
 
 ### Author / Автор
 
