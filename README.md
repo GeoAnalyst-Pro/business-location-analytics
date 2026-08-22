@@ -110,7 +110,7 @@ README.md
 ### Author / Автор
 
 **Zhanna Marchenko / Жанна Марченко** — Chief Project Engineer (NOPRIZ Lvl.
-7) / ГИП, НОПРИЗ 7 уровень · Founder, DOMA LLC (ESG Doma) 
+7) / Цифровая аналитика / ГИП, НОПРИЗ 7 уровень · Founder, DOMA LLC (ESG Doma) 
 
 © 2022 ИП Марченко | GeoAnalyst.pro
 Все материалы охраняются законодательством РФ об интеллектуальной собственности (ст. 1225–1302 ГК РФ).
