@@ -14,8 +14,8 @@
   }
   * { box-sizing: border-box; }
   html, body { margin:0; padding:0; height:100%; font-family: 'Segoe UI', Arial, sans-serif; color:#2b2b22; }
-  .leaflet-tile-pane { filter: grayscale(1) brightness(1.06) contrast(0.92); }
-  #map { position:absolute; top:76px; left:0; right:0; bottom:0; }
+  #map { position:absolute; top:76px; left:0; right:0; bottom:0; background:#eef0ea; }
+  .leaflet-control-attribution { font-size:10px; opacity:.75; }
 
   #header {
     position:absolute; top:0; left:0; right:0; height:76px; z-index:1000;
@@ -164,9 +164,13 @@ const map = L.map('map', { zoomControl: false, scrollWheelZoom: true })
 
 L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors'
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 16,
+    attribution: '&copy; Esri'
+}).addTo(map);
+// подписи городов/улиц тонким слоем поверх
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 16
 }).addTo(map);
 
 L.control.scale({ metric: true, imperial: false, position: 'bottomleft' }).addTo(map);
