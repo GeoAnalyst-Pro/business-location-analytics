@@ -168,13 +168,19 @@ const map = L.map('map', { zoomControl: false, scrollWheelZoom: true })
   .setView([55.6805, 37.5760], 15);
 
 L.control.zoom({ position: 'bottomleft' }).addTo(map);
+  
+const CARTO_API_KEY = "cb1_2uo1_1_4812663a556f3cbed00a8c5a";
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-  CARTO_API_KEY = "cb1_2uo1_1_4812663a556f3cbed00a8c5a"
-  subdomains: 'abcd',
-  maxZoom: 19
-}).addTo(map);
+L.tileLayer(
+  `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`,
+  {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
+      '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }
+).addTo(map);
 
 L.control.scale({ metric: true, imperial: false, position: 'bottomleft' }).addTo(map);
 
