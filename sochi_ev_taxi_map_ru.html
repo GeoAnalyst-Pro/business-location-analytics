@@ -111,8 +111,6 @@
     <h1>Переход таксопарка на электромобили &mdash; Сочи, Краснодарский край</h1>
     <p>Снижение затрат, сохранение выручки и управление рисками &middot; Аналитическая карта для принятия решения &middot; DOMA / GeoAnalyst, апрель 2026</p>
   </div>
-  <div class="tag">Подготовила Жанна Марченко &middot; ГИП НОПРИЗ, 7 уровень</div>
-</div>
 
 <div id="map"></div>
 
@@ -165,7 +163,7 @@ const map = L.map('map', { zoomControl: false, scrollWheelZoom: true })
 L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=cb1_2uo1_1_4812663a556f3cbed00a8c5a',
   subdomains: 'abcd',
   maxZoom: 19
 }).addTo(map);
